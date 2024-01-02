@@ -1,0 +1,764 @@
+* DoWhatIMean
+The Pwsh Module for The Lazy people
+Use =Invoke-DoWhatIMean= to get stuff done for you.
+** Use Cases
+*** Write ChatGPT straigt to a file
+Tired of the endless copy past from chatgpt that is the horrifying reality of developing modern software?
+I know I am and thats why I ~~copied this stuff from chatgpt~~ wrote this module.
+
+*** Other Usecases
+Eh, I am sure there are some
+
+** Workflow
+1. Load Module
+2. Set API Key
+3. Set funtions to use
+4. Get the module to do what you mean.
+*  Implementation
+** Setup the module
+#+begin_ai
+[SYS]: You are a meticoulus powershell developer excelent at automation. However, you still use emacs for all your software developement. You all your code in src blocks that are tangled to files.
+
+[ME]: Setup the boilerplate for a new Powershell module thats called DoWhatIMean
+The module should allow for customization.
+    The user should be allowed to set the API key using the function Set-DoWhatIMeanAPIKey and it should be stored as a secret string
+    The user should be allowed to set an array of either FunctionInfo objects or strigs using the function Set-DoWhatIMeanFunctions
+    The user should be allowed to call a function names Invoke-DoWhatIMean which takes a string as input
+
+[AI]: The following setup demonstrates how to create a PowerShell module called `DoWhatIMean` with the requested customization capabilities. This is a boilerplate example and might require additional functionality to interact with an actual API.
+
+1. First, create a new PowerShell script module (PSM1) file for your module named `DoWhatIMean.psm1`. This will contain the functions that make up your module.
+
+2. Add the following code to `DoWhatIMean.psm1` to define the functions `Set-DoWhatIMeanAPIKey`, `Set-DoWhatIMeanFunctions`, and `Invoke-DoWhatIMean`:
+
+```powershell
+# A global variable to store the API key securely
+$script:DoWhatIMeanAPIKey = $null
+
+# A global variable to store the function information 
+$script:DoWhatIMeanFunctions = @()
+
+function Set-DoWhatIMeanAPIKey {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$APIKey
+    )
+    
+    # Convert the provided API key to secure string and store it in global scope
+    $script:DoWhatIMeanAPIKey = $APIKey | ConvertTo-SecureString -AsPlainText -Force
+}
+
+function Set-DoWhatIMeanFunctions {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [System.Collections.ArrayList]$FunctionList
+    )
+    
+    # Replace the current list with the provided FunctionInfo objects or strings
+    $script:DoWhatIMeanFunctions = $FunctionList.Clone()
+}
+
+function Invoke-DoWhatIMean {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Input
+    )
+    
+    # Implementation of the function
+    # This is where you would add your logic to handle the input
+    # For example, using the provided API key and Function objects or strings
+    
+    Write-Output "Received input: $Input"
+    Write-Output "Invoke-DoWhatIMean function needs implementation."
+}
+
+# Export the functions so they are available to users of the module
+Export-ModuleMember -Function Set-DoWhatIMeanAPIKey, Set-DoWhatIMeanFunctions, Invoke-DoWhatIMean
+```
+
+3. Next, create a module manifest (`DoWhatIMean.psd1`) to define metadata about your module:
+
+```powershell
+@{
+
+# Script module or binary module file associated with this manifest.
+RootModule = 'DoWhatIMean.psm1'
+
+# Version number of this module.
+ModuleVersion = '1.0.0'
+
+# ID used to uniquely identify this module
+GUID = 'enter-a-unique-guid-here'
+
+# Author of this module
+Author = 'YourName'
+
+# Company or vendor of this module
+CompanyName = 'YourCompanyName'
+
+# Copyright statement for this module
+Copyright = '(c) YourCompanyName. All rights reserved.'
+
+# Description of the functionality provided by this module
+Description = 'DoWhatIMean module for automating and customizing API interactions'
+
+# Functions to export from this module
+FunctionsToExport = 'Set-DoWhatIMeanAPIKey', 'Set-DoWhatIMeanFunctions', 'Invoke-DoWhatIMean'
+
+# Variables to export from this module
+VariablesToExport = '*'
+
+# Aliases to export from this module
+AliasesToExport = '*'
+
+# Prerequisite modules (if any)
+RequiredModules = @()
+
+# External module dependencies
+ExternalModuleDependencies = @()
+
+}
+```
+Replace `'enter-a-unique-guid-here'` with an actual GUID which can be generated using `[guid]::NewGuid()` in PowerShell.
+
+4. Place both the `DoWhatIMean.psm1` and `DoWhatIMean.psd1` files in a directory named `DoWhatIMean` under one of the paths listed in `$Env:PSModulePath`.
+
+5. You can then import the module using `Import-Module DoWhatIMean` and use the functions provided.
+
+Remember that the implementation of the `Invoke-DoWhatIMean` function is still needed. You should add logic that performs actions based on the input string and the functions or API actions that are configured through the customization functions.
+
+#+end_ai
+*** PowerShell Module DoWhatIMean Setup
+***** DoWhatIMean.psm1
+#+BEGIN_SRC powershell :tangle "DoWhatIMean/DoWhatIMean.psm1"
+# A global variable to store the API key securely
+$script:DoWhatIMeanAPIKey = $null
+
+# A global variable to store the function information
+$script:DoWhatIMeanFunctions = @()
+
+function Set-DoWhatIMeanAPIKey {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$APIKey
+    )
+    
+    # Convert the provided API key to secure string and store it in global scope
+    $script:DoWhatIMeanAPIKey = $APIKey | ConvertTo-SecureString -AsPlainText -Force
+}
+
+function Set-DoWhatIMeanFunctions {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [System.Collections.ArrayList]$FunctionList
+    )
+    
+    # Replace the current list with the provided FunctionInfo objects or strings
+    $script:DoWhatIMeanFunctions = $FunctionList.Clone()
+}
+
+function Invoke-DoWhatIMean {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Input
+    )
+    
+    # Implementation of the function
+    # This is where you would add your logic to handle the input
+    # For example, using the provided API key and Function objects or strings
+    
+    Write-Output "Received input: $Input"
+    Write-Output "Invoke-DoWhatIMean function needs implementation."
+}
+
+# Export the functions so they are available to users of the module
+Export-ModuleMember -Function Set-DoWhatIMeanAPIKey, Set-DoWhatIMeanFunctions, Invoke-DoWhatIMean
+#+END_SRC
+
+***** DoWhatIMean.psd1
+#+BEGIN_SRC powershell :tangle "DoWhatIMean/DoWhatIMean.psd1"
+@{
+
+# Script module or binary module file associated with this manifest.
+RootModule = 'DoWhatIMean.psm1'
+
+# Version number of this module.
+ModuleVersion = '1.0.0'
+
+# ID used to uniquely identify this module
+GUID = 'enter-a-unique-guid-here'
+
+# Author of this module
+Author = 'YourName'
+
+# Company or vendor of this module
+CompanyName = 'YourCompanyName'
+
+# Copyright statement for this module
+Copyright = '(c) YourCompanyName. All rights reserved.'
+
+# Description of the functionality provided by this module
+Description = 'DoWhatIMean module for automating and customizing API interactions'
+
+# Functions to export from this module
+FunctionsToExport = 'Set-DoWhatIMeanAPIKey', 'Set-DoWhatIMeanFunctions', 'Invoke-DoWhatIMean'
+
+# Variables to export from this module
+VariablesToExport = '*'
+
+# Aliases to export from this module
+AliasesToExport = '*'
+
+# Prerequisite modules (if any)
+RequiredModules = @()
+
+# External module dependencies
+ExternalModuleDependencies = @()
+
+}
+#+END_SRC
+```
+
+To tangle these blocks to their respective files, you would need to run the Emacs command `org-babel-tangle` while having the cursor within the org-mode document. This will create the `DoWhatIMean` folder relative to the location of the org file and create within it two files: `DoWhatIMean.psm1` and `DoWhatIMean.psd1` containing the appropriate powershell code.
+
+Please replace `'enter-a-unique-guid-here'` with the actual GUID for your module. You can create a GUID in PowerShell with the following command: `[guid]::NewGuid().ToString()`.
+
+Remember, the above is just boilerplate code and would require the actual implementation logic for `Invoke-DoWhatIMean` and an actual API to interact with.
+
+[ME]: 
+#+end_ai
+*** How exactly does one develop a powershell module????
+#+begin_ai
+[SYS]: You are a helpful assistant.
+
+[ME]: I am trying to develop a powershell module. All of the code will be in a file called DoWhatIMean.psm1 and there will also be a manifest called DoWhatIMean.psd1
+How do I go about working on the module, assuming I onlt have the powershell terminal at my disposal.
+How do I load and reload the module as I update it?
+What do I do with the psd1 file??
+
+[AI]: Developing a PowerShell module can be a rewarding experience. You have the right files to start with: the `.psm1` for the script module itself and the `.psd1` for the module manifest. Here's how you can proceed using only the PowerShell terminal:
+
+1. **Create the initial files:**
+   Use a text editor to create your `DoWhatIMean.psm1` and `DoWhatIMean.psd1` files in a directory. The `.psm1` file will contain the PowerShell functions that make up your module, while the `.psd1` file will contain metadata about your module.
+
+2. **Edit `DoWhatIMean.psm1`:**
+   Write your PowerShell functions and code inside the `DoWhatIMean.psm1` file. You can either use the built-in PowerShell text editor (`notepad.exe`, `Set-Content`, `Add-Content`, etc.) or, if you have access to it, use an external editor that supports PowerShell syntax highlighting.
+
+3. **Author `DoWhatIMean.psd1`:**
+   The `.psd1` manifest file contains metadata such as the author, company name, module version, required PowerShell version, nested modules, required modules, and exported functions. Use PowerShell's `New-ModuleManifest` cmdlet to create a skeleton `.psd1` file, which you can then edit to suit your needs.
+
+4. **Load the module:**
+   To load the module for the first time, use the `Import-Module` cmdlet and specify the path to your `.psm1` or `.psd1` file:
+
+   ```powershell
+   Import-Module .\path\to\DoWhatIMean.psm1
+   ```
+
+   *Alternatively, if you are using the `.psd1` file (which is the recommended way once your manifest is properly configured), you can just use that:*
+
+   ```powershell
+   Import-Module .\path\to\DoWhatIMean.psd1
+   ```
+
+5. **Reload the module:**
+   If you make changes to your module after it has already been loaded, you will need to reload the module to see those changes. You can do this by removing the module and importing it again:
+
+   ```powershell
+   Remove-Module DoWhatIMean
+   Import-Module .\path\to\DoWhatIMean.psd1 -Force
+   ```
+
+   The `-Force` parameter can also be used to re-import the module without having to explicitly remove it first, although using `Remove-Module` first can be a cleaner way to ensure the old module is fully unloaded.
+
+6. **Testing your module:**
+   After you load or reload your module, you can test the functions that you have written to ensure they work correctly.
+
+7. **Update the module manifest as needed:**
+   Remember to keep the `DoWhatIMean.psd1` file up to date as you add or change functionality in your module. You might need to update properties like `FunctionsToExport`, `CmdletsToExport`, or `ModuleVersion`.
+
+8. **Set up a module path:**
+   Eventually, you'll want to make sure your module is placed in one of the directories listed in `$env:PSModulePath` so that PowerShell can automatically find and import the module without needing to specify the full path. You can do this by copying your module folder (which contains both `.psm1` and `.psd1` files) to one of these locations:
+
+   - For the current user: `$env:USERPROFILE\Documents\WindowsPowerShell\Modules`
+   - For all users: `$env:ProgramFiles\WindowsPowerShell\Modules`
+
+9. **Publishing your module:**
+   When your module is ready for others to use, you can publish it to the PowerShell Gallery using the `Publish-Module` cmdlet. Ensure you have an account on the PowerShell Gallery and the necessary API key.
+
+10. **Help and documentation:**
+    Don't forget to include comment-based help in your `.psm1` files so users can get help on your functions using the `Get-Help` cmdlet.
+
+Always remember that writing a module is an iterative process. You'll likely be editing your scripts, reloading your module, and testing functions repeatedly until you are satisfied with the result. Once you're happy with your module, consider versioning it with SemVer (Semantic Versioning) and publishing it to the PowerShell Gallery for others to use.
+
+[ME]: Whats the best praxis for adding tests to the module?
+
+[AI]: Incorporating tests into your PowerShell module is an excellent practice that improves code quality and reliability. PowerShell provides a few frameworks for writing tests, with the most common being the Pester framework. Here's a general guide for adding tests to your module using Pester:
+
+1. **Install Pester**:
+   If Pester is not already installed, you can install it from the PowerShell Gallery using the following command:
+   ```powershell
+   Install-Module -Name Pester -Scope CurrentUser -Force -SkipPublisherCheck
+   ```
+
+2. **Structure Your Module Directory**:
+   Organize your module directory to include a directory for tests. A common structure looks something like this:
+
+   ```
+   DoWhatIMean/
+   ├── DoWhatIMean.psd1
+   ├── DoWhatIMean.psm1
+   └── Tests/
+       └── DoWhatIMean.Tests.ps1
+   ```
+   
+   Here, the `Tests` directory is where you will place all your test files.
+
+3. **Write Your Tests**:
+   Pester tests are written in files typically named `*.Tests.ps1`. Open up your testing file (e.g., `DoWhatIMean.Tests.ps1`), and start defining your tests using `Describe`, `Context`, and `It` blocks. Here's an example structure:
+
+   ```powershell
+   Describe "DoWhatIMean" {
+       BeforeAll {
+           # Load your module functions you'd like to test
+           . $PSScriptRoot\..\DoWhatIMean.psm1
+       }
+
+       Context "Function1" {
+           It "does something expected" {
+               # Call a function and check its behavior
+               $result = Function1 "Input"
+               $result | Should -Be "ExpectedOutput"
+           }
+       }
+
+       Context "Function2" {
+           It "does something else expected" {
+               # Another test for another function
+               $result = Function2 -Parameter "Value"
+               $result | Should -Be "SomeOtherExpectedOutput"
+           }
+       }
+   }
+   ```
+
+4. **Run Tests**:
+   Execute your tests within the PowerShell terminal to see the results. Navigate to your module's directory and run the `Invoke-Pester` command:
+
+   ```powershell
+   Invoke-Pester .\Tests\
+   ```
+
+   This will run all tests located in the `Tests` directory of your module.
+
+5. **Integrate Testing in Your Development Workflow**:
+   Integrate the running of tests into your regular development cycle. Any time you make a significant change to your module, rerun your tests to ensure no new changes have broken existing functionality.
+
+6. **Use Continuous Integration (CI)**:
+   If you plan to publish your module or collaborate with others, consider setting up a continuous integration pipeline using services like GitHub Actions, Azure DevOps, or others that support PowerShell. This can automatically run tests when you push new changes to your repository.
+
+7. **Test Coverage and Code Quality**:
+   Aim for a high level of test coverage for your module, meaning you should write tests for as many code paths as possible. Pester provides a code coverage facility that can help you identify untested parts of your module.
+
+8. **Documentation for Tests**:
+   Document your tests clearly to explain what each test is checking for. Use the 'It' statements to make the intended behavior clear for anyone reading the tests.
+
+By adding tests to your module, you not only ensure that your functions work as intended but also that any future changes don't unexpectedly break existing functionality. Remember that Pester is a powerful tool that can mock functions, provide test setup and teardown, and much more. Be sure to explore Pester's full capabilities to make the most of your testing efforts.
+
+[ME]:
+#+end_ai
+** Get the function info
+#+begin_ai
+[SYS]: You are a dedicated powershell developer and an expert at functional programming and automation
+
+[ME]: Write a powershell function that takes a function name, it can be any function, user defined or system function, and returns the following information:
+description:
+A description of what the function does, used by the model to choose when and how to call the function.
+
+name:
+The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
+
+parameters
+The parameters the functions accepts, described as a JSON Schema object. See the guide for examples, and the JSON Schema reference for documentation about the format.
+
+The values should be returned as json object in the following form:
+      "function": {
+        "name": "get_current_weather",
+        "description": "Get the current weather in a given location",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string",
+              "description": "The city and state, e.g. San Francisco, CA"
+            },
+            "unit": {
+              "type": "string",
+              "enum": ["celsius", "fahrenheit"]
+            }
+          },
+          "required": ["location"]
+
+
+
+[AI]: To create a PowerShell function that can retrieve and return function metadata as described, please see the following example:
+
+```powershell
+function Get-FunctionMetadata {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$FunctionName
+    )
+
+    # Get the function or cmdlet details
+    $functionDetails = Get-Command $FunctionName -ErrorAction SilentlyContinue
+
+    if ($functionDetails -eq $null) {
+        Write-Error "Function or cmdlet '$FunctionName' not found."
+        return
+    }
+
+    # Start building the JSON representation
+    $functionMetadata = @{
+        function = @{
+            name = $FunctionName
+            description = ""
+            parameters = @{
+                type = "object"
+                properties = @{}
+                required = @()
+            }
+        }
+    }
+
+    # Attempt to get the help description of the function/cmdlet
+    $help = Get-Help $FunctionName -ErrorAction SilentlyContinue
+
+    if ($help.Description -ne $null) {
+        $functionMetadata.function.description = $help.Description.Text
+    }
+
+    # Adding parameters info
+    foreach ($param in $functionDetails.Parameters.GetEnumerator()) {
+        $parameterName = $param.Key
+        $parameterDetails = @{
+            type = "string"  # Default to string; in real cases, this should be derived from the parameter's type
+            description = ""
+        }
+
+        # Check for parameter types and constraints (simplified for illustration)
+        if ($param.Value.ParameterType.FullName -eq "System.String") {
+            $parameterDetails.type = "string"
+        } elseif ($param.Value.ParameterType.FullName -eq "System.Int32") {
+            $parameterDetails.type = "integer"
+        }
+
+        # If the parameter is mandatory, add it to the required properties
+        if ($param.Value.Attributes.Mandatory) {
+            $functionMetadata.function.parameters.required += $parameterName
+        }
+
+        # If there's help available for the parameter, include the
+#+end_ai
+Meh, close enough....
+** Call the OpenAi endpoint
+#+begin_ai
+[SYS]: You are an awesome powershell developer.
+
+[ME]: You are working on the following powershell module
+```powershell
+#+BEGIN_SRC powershell :tangle "DoWhatIMean/DoWhatIMean.psm1"
+# A global variable to store the API key securely
+$script:DoWhatIMeanAPIKey = $null
+
+# A global variable to store the function information
+$script:DoWhatIMeanFunctions = @()
+
+function Set-DoWhatIMeanAPIKey {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$APIKey
+    )
+
+    # Convert the provided API key to secure string and store it in global scope
+    $script:DoWhatIMeanAPIKey = $APIKey | ConvertTo-SecureString -AsPlainText -Force
+}
+
+function Set-DoWhatIMeanFunctions {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [System.Collections.ArrayList]$FunctionList
+    )
+
+    # Replace the current list with the provided FunctionInfo objects or strings
+    $script:DoWhatIMeanFunctions = $FunctionList.Clone()
+}
+
+function Invoke-DoWhatIMean {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Input
+    )
+
+    # Implementation of the function
+    # This is where you would add your logic to handle the input
+    # For example, using the provided API key and Function objects or strings
+
+    Write-Output "Received input: $Input"
+    Write-Output "Invoke-DoWhatIMean function needs implementation."
+}
+
+# Export the functions so they are available to users of the module
+Export-ModuleMember -Function Set-DoWhatIMeanAPIKey, Set-DoWhatIMeanFunctions, Invoke-DoWhatIMean
+```
+And your job is to implement the `Invoke-DoWhatIMean` function.
+The function should take a natural langugage string as input and make a POST request to the openAi endpoint, equivalent to this:
+```
+curl https://api.openai.com/v1/chat/completions \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer $OPENAI_API_KEY" \
+-d '{
+  "model": "gpt-3.5-turbo",
+  "messages": [
+    {
+      "role": "user",
+      "content": "{$InsertUserInputHere}"
+    }
+  ],
+  "tools": "{$JSONArrayOfTools}"
+```
+Where $InsertUserInputHere is the input sent to the function and $JSONArrayOfTools is obtained by calling a function Get-DoWhatIMeanFunctionMetadata
+
+[AI]: To implement the `Invoke-DoWhatIMean` function, we'll need to make an HTTP POST request to the OpenAI API endpoint with the appropriate headers and body data. We'll also need to implement a helper function `Get-DoWhatIMeanFunctionMetadata` to create a JSON array of tools from the global variable `$script:DoWhatIMeanFunctions`.
+
+Let's start by adding the `Get-DoWhatIMeanFunctionMetadata` function:
+
+```powershell
+function Get-DoWhatIMeanFunctionMetadata {
+    # Creating JSON data from the $script:DoWhatIMeanFunctions array
+    $metaData = $script:DoWhatIMeanFunctions | ForEach-Object {
+        if ($_ -is [string]) {
+            @{ "name" = $_ }
+        } elseif ($_ -is [System.Management.Automation.FunctionInfo]) {
+            @{ "name" = $_.Name }
+        } else {
+            throw "Unrecognized function format in DoWhatIMeanFunctions list"
+        }
+    }
+
+    # Convert the metadata to JSON format
+    return ($metaData | ConvertTo-Json -Depth 5)
+}
+```
+
+Now, let's flesh out the `Invoke-DoWhatIMean` function:
+
+```powershell
+function Invoke-DoWhatIMean {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$Input
+    )
+
+    # Ensure that the API key has been set
+    if (-not $script:DoWhatIMeanAPIKey) {
+        throw "API key has not been set. Use Set-DoWhatIMeanAPIKey to set the API key first."
+    }
+
+    # Generate the JSON array of tools
+    $JSONArrayOfTools = Get-DoWhatIMeanFunctionMetadata
+
+    # Convert the secure API key back to plaintext
+    $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($script:DoWhatIMeanAPIKey)
+    $OpenAI_API_Key = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+    
+    # Prepare the body of the POST request
+    $body = @{
+        "model" = "gpt-3.5-turbo"
+        "messages" = @(
+            @{
+                "role" = "user"
+                "content" = $Input
+            }
+        )
+        "tools" = $JSONArrayOfTools
+    } | ConvertTo-Json
+    
+    # Prepare the header with content type and authorization
+    $headers = @{
+        "Content-Type" = "application/json"
+        "Authorization" = "Bearer $OpenAI_API_Key"
+    }
+    
+    # Make the POST request to OpenAI endpoint
+    try {
+        $response = Invoke-RestMethod -Uri 'https://api.openai.com/v1/chat/completions' -Method 'POST' -Headers $headers -Body $body
+        Write-Output $response
+    }
+    catch {
+        Write-Error "Failed to invoke OpenAI API: $_"
+    }
+}
+```
+
+In the `Invoke-DoWhatIMean` function, we throw an error if the API key isn't set to ensure that it has to be configured before the function can be used. We also convert the secure API key back to plaintext using the `SecureStringToBSTR` method before sending it in the authorization header. The body of the POST request is created as a hashtable, which is then converted to JSON. We then make the REST request and output the response or catch any exception that occurs.
+
+Finally, ensure that the updated module file includes both of these functions in the `Export-ModuleMember` statement at the end.
+
+#+end_ai
+
+** Invoke the selected tools
+#+begin_ai
+[SYS]: You are a powerfull powershell wizzard
+
+[ME]: You are to add a description and content to the powershell function ```Invoke-SelectedTool```. It is located in an powershell module
+The function takes a PSCustomObject obtained from the following json:
+"tool_calls": [
+          {
+            "id": "call_abc123",
+            "type": "function",
+            "function": {
+              "name": "get_current_weather",
+              "arguments": "{\n\"location\": \"Boston, MA\"\n}"
+            }
+          }
+        ]
+
+For each entry in the array, it should invoke the command corresponing to the function name with the arguments obtained from the arguments fields.
+
+
+```
+function Invoke-SelectedTool {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [PSCustomObject]$toolCalls
+    )
+}
+```
+
+
+[AI]: Given the information provided, you can enhance the `Invoke-SelectedTool` function to process an array of tool calls represented as a `PSCustomObject`. Each tool call contains an ID, a type, and a function with a name and arguments. You will need to iterate over each entry, parse the arguments as a JSON string, and then invoke the corresponding function with the provided arguments.
+
+Here's a full description of `Invoke-SelectedTool`, as well as its updated content.
+
+```powershell
+<#
+.SYNOPSIS
+Invokes a set of predefined tools/functions based on the input object.
+
+.DESCRIPTION
+The Invoke-SelectedTool function takes a PSCustomObject parameter that represents an array of tool call definitions.
+Each tool call includes an ID, a type, and details of the function to be called.
+For each entry, it will dynamically invoke the specified function with the arguments provided.
+
+.PARAMETER toolCalls
+A PSCustomObject that holds an array of tool call information with function names and their arguments.
+
+.EXAMPLE
+$jsonInput = @"
+{
+  "tool_calls": [
+    {
+      "id": "call_abc123",
+      "type": "function",
+      "function": {
+        "name": "get_current_weather",
+        "arguments": "{\\"location\\": \\"Boston, MA\\"}"
+      }
+    }
+  ]
+}
+"@
+
+$toolCalls = ConvertFrom-Json -InputObject $jsonInput
+
+Invoke-SelectedTool -toolCalls $toolCalls.tool_calls
+
+This example will invoke the get_current_weather function with the argument location set to "Boston, MA".
+
+#>
+function Invoke-SelectedTool {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [PSCustomObject]$toolCalls
+    )
+
+    # Process each tool call in the input object
+    foreach ($call in $toolCalls) {
+        # Check if the type of call is a 'function' before proceeding
+        if ($call.type -eq 'function') {
+            $functionName = $call.function.name
+            $jsonArguments = $call.function.arguments | ConvertFrom-Json
+
+            # Prepare an argument hashtable for splatting
+            $argumentList = @{}
+            foreach ($key in $jsonArguments.PSObject.Properties.Name) {
+                $argumentList[$key] = $jsonArguments.$key
+            }
+
+            # Dynamically invoke the function with the arguments
+            try {
+                & $functionName @argumentList
+            }
+            catch {
+                Write-Error "An error occurred while invoking function '$functionName': $_"
+            }
+        }
+    }
+}
+```
+
+This updated version of the function includes commentary headers that outline its purpose, parameters, and provide an example use case. It dynamically invokes the specified PowerShell functions as per the provided tool call definitions.
+
+**Please note**: This function assumes that the PowerShell functions corresponding to the names provided in the tool calls exist in the current session or are loaded from modules available to the PowerShell session. If they do not, attempting to invoke them will result in an error. Furthermore, the function is not validating input beyond checking the call type; there may be additional considerations for error handling and input validation depending on the context in which this function will be used.
+
+[ME]: Excelent, Write a small org-mode src block using the powershell langugage that loads and runs the function
+
+[AI]: Certainly! Below is an org-mode source block that uses the PowerShell language specification. This source block assumes that the `Invoke-SelectedTool` function has been defined in the current PowerShell session or in a module that has been loaded into the session. The source block provides an example JSON string that contains tool call definitions, converts it into a PowerShell custom object, and then runs the `Invoke-SelectedTool` function using that object.
+
+```org
+#+BEGIN_SRC powershell :results output
+# Define the JSON string with tool call information
+$jsonInput = @"
+{
+  "tool_calls": [
+    {
+      "id": "call_abc123",
+      "type": "function",
+      "function": {
+        "name": "Get-CurrentWeather",
+        "arguments": "{\\"location\\": \\"Boston, MA\\"}"
+      }
+    }
+  ]
+}
+"@
+
+# Convert JSON string to a PSCustomObject
+$toolCallsObject = ConvertFrom-Json -InputObject $jsonInput
+
+# Assuming Invoke-SelectedTool function is available in the session, run it with the tool calls object
+Invoke-SelectedTool -toolCalls $toolCallsObject.tool_calls
+
+# For demonstration purposes, we may want to see the output of the invoked tools.
+# This requires the functions referenced (e.g., Get-CurrentWeather) to be defined and available.
+# Otherwise, this will produce an error stating the function could not be found.
+#+END_SRC
+```
+
+Replace `Get-CurrentWeather` with the actual function name you want to execute, and ensure the functions referenced in the JSON input are defined or imported into your PowerShell session. Keep in mind that org-mode and PowerShell may require appropriate setup to execute the source blocks correctly, and you'll need an org-mode compatible editor, like Emacs, to utilize this functionality.
+
+[ME]: 
+#+end_ai
