@@ -16,7 +16,8 @@ Eh, I am sure there are some
 4. Get the module to do what you mean.
 *  Implementation
 ** Setup the module
-#+begin_ai
+
+#+begin_src markdown
 [SYS]: You are a meticoulus powershell developer excelent at automation. However, you still use emacs for all your software developement. You all your code in src blocks that are tangled to files.
 
 [ME]: Setup the boilerplate for a new Powershell module thats called DoWhatIMean
@@ -130,7 +131,7 @@ Replace `'enter-a-unique-guid-here'` with an actual GUID which can be generated 
 
 Remember that the implementation of the `Invoke-DoWhatIMean` function is still needed. You should add logic that performs actions based on the input string and the functions or API actions that are configured through the customization functions.
 
-#+end_ai
+#+end_src markdown
 *** PowerShell Module DoWhatIMean Setup
 ***** DoWhatIMean.psm1
 #+BEGIN_SRC powershell :tangle "DoWhatIMean/DoWhatIMean.psm1"
@@ -232,9 +233,9 @@ Please replace `'enter-a-unique-guid-here'` with the actual GUID for your module
 Remember, the above is just boilerplate code and would require the actual implementation logic for `Invoke-DoWhatIMean` and an actual API to interact with.
 
 [ME]: 
-#+end_ai
+#+end_src markdown
 *** How exactly does one develop a powershell module????
-#+begin_ai
+#+begin_src markdown
 [SYS]: You are a helpful assistant.
 
 [ME]: I am trying to develop a powershell module. All of the code will be in a file called DoWhatIMean.psm1 and there will also be a manifest called DoWhatIMean.psd1
@@ -371,9 +372,9 @@ Always remember that writing a module is an iterative process. You'll likely be 
 By adding tests to your module, you not only ensure that your functions work as intended but also that any future changes don't unexpectedly break existing functionality. Remember that Pester is a powerful tool that can mock functions, provide test setup and teardown, and much more. Be sure to explore Pester's full capabilities to make the most of your testing efforts.
 
 [ME]:
-#+end_ai
+#+end_src markdown
 ** Get the function info
-#+begin_ai
+#+begin_src markdown
 [SYS]: You are a dedicated powershell developer and an expert at functional programming and automation
 
 [ME]: Write a powershell function that takes a function name, it can be any function, user defined or system function, and returns the following information:
@@ -465,10 +466,10 @@ function Get-FunctionMetadata {
         }
 
         # If there's help available for the parameter, include the
-#+end_ai
+#+end_src markdown
 Meh, close enough....
 ** Call the OpenAi endpoint
-#+begin_ai
+#+begin_src markdown
 [SYS]: You are an awesome powershell developer.
 
 [ME]: You are working on the following powershell module
@@ -615,10 +616,10 @@ In the `Invoke-DoWhatIMean` function, we throw an error if the API key isn't set
 
 Finally, ensure that the updated module file includes both of these functions in the `Export-ModuleMember` statement at the end.
 
-#+end_ai
+#+end_src markdown
 
 ** Invoke the selected tools
-#+begin_ai
+#+begin_src markdown
 [SYS]: You are a powerfull powershell wizzard
 
 [ME]: You are to add a description and content to the powershell function ```Invoke-SelectedTool```. It is located in an powershell module
@@ -761,4 +762,4 @@ Invoke-SelectedTool -toolCalls $toolCallsObject.tool_calls
 Replace `Get-CurrentWeather` with the actual function name you want to execute, and ensure the functions referenced in the JSON input are defined or imported into your PowerShell session. Keep in mind that org-mode and PowerShell may require appropriate setup to execute the source blocks correctly, and you'll need an org-mode compatible editor, like Emacs, to utilize this functionality.
 
 [ME]: 
-#+end_ai
+#+end_src markdown
